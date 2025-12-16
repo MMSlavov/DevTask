@@ -18,6 +18,8 @@ builder.Services.AddSingleton<ILoanRepository, LoanRepository>();
 builder.Services.AddSingleton<DatabaseInitializer>();
 builder.Services.AddSingleton<LoanMappingService>();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 await using (var scope = app.Services.CreateAsyncScope())
@@ -35,23 +37,9 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler("/error");
 app.UseHttpsRedirection();
 
+app.MapControllers();
+
 app.MapGet("/error", () => Results.Problem("An error occurred."))
     .ExcludeFromDescription();
-
-app.MapGet("/loans", async (ILoanRepository repository, LoanMappingService mappingService) =>
-{
-    var loans = await repository.GetAllAsync();
-    var result = mappingService.MapLoansToResponses(loans);
-    return Results.Ok(result);
-})
-.WithName("GetLoans");
-
-app.MapGet("/loans/stats", async (ILoanRepository repository, LoanMappingService mappingService) =>
-{
-    var (sumPaid, sumAwaiting) = await repository.GetPaidAwaitingSumsAsync();
-    var result = mappingService.MapStatsToResponse(sumPaid, sumAwaiting);
-    return Results.Ok(result);
-})
-.WithName("GetLoanStats");
 
 app.Run();
