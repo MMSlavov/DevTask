@@ -38,16 +38,36 @@ app.MapGet("/error", () => Results.Problem("An error occurred."))
 
 app.MapGet("/loans", async (ILoanRepository repository) =>
 {
-    try
+    var loans = await repository.GetAllAsync();
+    var result = loans.Select(loan => new
     {
-        var loans = await repository.GetAllAsync();
-        return Results.Ok(loans);
-    }
-    catch (Exception ex)
-    {
-        throw;
-    }
+        loan.LoanNumber,
+        loan.ClientName,
+        loan.Amount,
+        loan.RequestDate,
+        Status = loan.Status.ToString(),
+        Invoices = loan.Invoices.Select(i => new { i.InvoiceNumber, i.Amount })
+    });
+    return Results.Ok(result);
 })
 .WithName("GetLoans");
+
+app.MapGet("/loans/stats", async (ILoanRepository repository) =>
+{
+    var (sumPaid, sumAwaiting) = await repository.GetPaidAwaitingSumsAsync();
+    var total = sumPaid + sumAwaiting;
+    var pctPaid = total == 0 ? 0 : sumPaid / total * 100m;
+    var pctAwaiting = total == 0 ? 0 : sumAwaiting / total * 100m;
+
+    var result = new
+    {
+        SumPaid = sumPaid,
+        SumAwaitingPayment = sumAwaiting,
+        PercentagePaid = decimal.Round(pctPaid, 2),
+        PercentageAwaitingPayment = decimal.Round(pctAwaiting, 2)
+    };
+    return Results.Ok(result);
+})
+.WithName("GetLoanStats");
 
 app.Run();

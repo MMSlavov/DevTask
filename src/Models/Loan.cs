@@ -7,4 +7,5 @@ public class Loan
     public decimal Amount { get; set; }
     public DateTime RequestDate { get; set; }
     public LoanStatus Status { get; set; }
+    public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 }
