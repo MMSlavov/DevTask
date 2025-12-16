@@ -1,6 +1,46 @@
 @LoanApi_HostAddress = http://localhost:5131
 
-GET {{LoanApi_HostAddress}}/weatherforecast/
+### Get all loans
+GET {{LoanApi_HostAddress}}/api/loans
 Accept: application/json
+
+###
+
+### Get specific loan
+GET {{LoanApi_HostAddress}}/api/loans/LN-001
+Accept: application/json
+
+###
+
+### Create new loan
+POST {{LoanApi_HostAddress}}/api/loans
+Content-Type: application/json
+
+{
+  "loanNumber": "LN-001",
+  "clientName": "John Doe",
+  "amount": 50000,
+  "requestDate": "2025-12-16T10:00:00",
+  "status": "Pending"
+}
+
+###
+
+### Update loan
+PUT {{LoanApi_HostAddress}}/api/loans/LN-001
+Content-Type: application/json
+
+{
+  "loanNumber": "LN-001",
+  "clientName": "John Doe",
+  "amount": 55000,
+  "requestDate": "2025-12-16T10:00:00",
+  "status": "Approved"
+}
+
+###
+
+### Delete loan
+DELETE {{LoanApi_HostAddress}}/api/loans/LN-001
 
 ###

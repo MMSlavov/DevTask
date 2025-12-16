@@ -81,12 +81,12 @@ dotnet build
 dotnet run
 ```
 
-The API will be available at `http://localhost:5000` (or the port specified in launchSettings.json).
+The API will be available at `http://localhost:5131` (or the port specified in launchSettings.json).
 
 ### Access Swagger UI
 Once the application is running, navigate to:
 ```
-http://localhost:5000/swagger
+http://localhost:5131/swagger
 ```
 
 ## Technology Stack
