@@ -24,6 +24,7 @@ public class LoansController : ControllerBase
     {
         var loans = await _repository.GetAllAsync();
         var result = _mappingService.MapLoansToResponses(loans);
+
         return Ok(result);
     }
 
@@ -33,6 +34,7 @@ public class LoansController : ControllerBase
     {
         var (sumPaid, sumAwaiting) = await _repository.GetPaidAwaitingSumsAsync();
         var result = _mappingService.MapStatsToResponse(sumPaid, sumAwaiting);
+
         return Ok(result);
     }
 }

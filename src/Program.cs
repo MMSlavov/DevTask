@@ -43,3 +43,5 @@ app.MapGet("/error", () => Results.Problem("An error occurred."))
     .ExcludeFromDescription();
 
 app.Run();
+
+public partial class Program { }
