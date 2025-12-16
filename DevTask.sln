@@ -1,10 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11304.174 d18.0
+VisualStudioVersion = 18.1.11304.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanApi", "src\LoanApi.csproj", "{189DA89E-FF1B-CE3B-1BED-742B76E7A56A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanApi.Tests", "tests\LoanApi.Tests\LoanApi.Tests.csproj", "{1FD8685C-379A-2E29-5431-AD830706BD0F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanApi.Tests", "tests\LoanApi.Tests.csproj", "{80C951D8-BC01-511F-4E0A-A91FB14B88F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,10 +16,10 @@ Global
 		{189DA89E-FF1B-CE3B-1BED-742B76E7A56A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{189DA89E-FF1B-CE3B-1BED-742B76E7A56A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{189DA89E-FF1B-CE3B-1BED-742B76E7A56A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1FD8685C-379A-2E29-5431-AD830706BD0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1FD8685C-379A-2E29-5431-AD830706BD0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1FD8685C-379A-2E29-5431-AD830706BD0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1FD8685C-379A-2E29-5431-AD830706BD0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80C951D8-BC01-511F-4E0A-A91FB14B88F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80C951D8-BC01-511F-4E0A-A91FB14B88F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80C951D8-BC01-511F-4E0A-A91FB14B88F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80C951D8-BC01-511F-4E0A-A91FB14B88F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
