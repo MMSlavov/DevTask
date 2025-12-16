@@ -41,11 +41,11 @@ public class LoanRepository : ILoanRepository
         {
             LoanNumber = row.LoanNumber,
             ClientName = row.ClientName,
-            Amount = row.Amount,
+            Amount = (decimal)row.Amount,
             RequestDate = requestDate,
             Status = status
         };
     }
 
-    private sealed record LoanRow(string LoanNumber, string ClientName, decimal Amount, string RequestDate, string Status);
+    private sealed record LoanRow(string LoanNumber, string ClientName, double Amount, string RequestDate, string Status);
 }

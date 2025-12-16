@@ -55,7 +55,7 @@ public class DatabaseInitializer
             {
                 LoanNumber = "LN-1002",
                 ClientName = "Brandon Smith",
-                Amount = 50_000,
+                Amount = 50_000.50m,
                 RequestDate = DateTime.UtcNow.AddDays(-5),
                 Status = LoanStatus.AwaitingPayment
             },

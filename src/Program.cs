@@ -1,5 +1,6 @@
 using LoanApi.Data;
 using LoanApi.Repositories;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ await using (var scope = app.Services.CreateAsyncScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseExceptionHandler("/error");
@@ -36,8 +38,15 @@ app.MapGet("/error", () => Results.Problem("An error occurred."))
 
 app.MapGet("/loans", async (ILoanRepository repository) =>
 {
-    var loans = await repository.GetAllAsync();
-    return Results.Ok(loans);
+    try
+    {
+        var loans = await repository.GetAllAsync();
+        return Results.Ok(loans);
+    }
+    catch (Exception ex)
+    {
+        throw;
+    }
 })
 .WithName("GetLoans");
 
