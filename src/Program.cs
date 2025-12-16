@@ -1,5 +1,6 @@
 using LoanApi.Data;
 using LoanApi.Repositories;
+using LoanApi.Services;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddSingleton<MasterConnectionKeeper>();
 builder.Services.AddSingleton<IDbConnectionFactory, SqliteConnectionFactory>();
 builder.Services.AddSingleton<ILoanRepository, LoanRepository>();
 builder.Services.AddSingleton<DatabaseInitializer>();
+builder.Services.AddSingleton<LoanMappingService>();
 
 var app = builder.Build();
 
@@ -36,36 +38,18 @@ app.UseHttpsRedirection();
 app.MapGet("/error", () => Results.Problem("An error occurred."))
     .ExcludeFromDescription();
 
-app.MapGet("/loans", async (ILoanRepository repository) =>
+app.MapGet("/loans", async (ILoanRepository repository, LoanMappingService mappingService) =>
 {
     var loans = await repository.GetAllAsync();
-    var result = loans.Select(loan => new
-    {
-        loan.LoanNumber,
-        loan.ClientName,
-        loan.Amount,
-        loan.RequestDate,
-        Status = loan.Status.ToString(),
-        Invoices = loan.Invoices.Select(i => new { i.InvoiceNumber, i.Amount })
-    });
+    var result = mappingService.MapLoansToResponses(loans);
     return Results.Ok(result);
 })
 .WithName("GetLoans");
 
-app.MapGet("/loans/stats", async (ILoanRepository repository) =>
+app.MapGet("/loans/stats", async (ILoanRepository repository, LoanMappingService mappingService) =>
 {
     var (sumPaid, sumAwaiting) = await repository.GetPaidAwaitingSumsAsync();
-    var total = sumPaid + sumAwaiting;
-    var pctPaid = total == 0 ? 0 : sumPaid / total * 100m;
-    var pctAwaiting = total == 0 ? 0 : sumAwaiting / total * 100m;
-
-    var result = new
-    {
-        SumPaid = sumPaid,
-        SumAwaitingPayment = sumAwaiting,
-        PercentagePaid = decimal.Round(pctPaid, 2),
-        PercentageAwaitingPayment = decimal.Round(pctAwaiting, 2)
-    };
+    var result = mappingService.MapStatsToResponse(sumPaid, sumAwaiting);
     return Results.Ok(result);
 })
 .WithName("GetLoanStats");
