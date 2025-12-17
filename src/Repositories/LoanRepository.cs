@@ -57,21 +57,23 @@ public class LoanRepository : ILoanRepository
 
     private static Loan MapLoan(LoanRow row)
     {
-        var status = Enum.TryParse<LoanStatus>(row.Status, true, out var parsedStatus)
-            ? parsedStatus
-            : LoanStatus.AwaitingPayment;
+        if (!Enum.TryParse<LoanStatus>(row.Status, true, out var parsedStatus))
+        {
+            throw new InvalidOperationException($"Invalid loan status: {row.Status}");
+        }
 
-        var requestDate = DateTime.TryParse(row.RequestDate, null, DateTimeStyles.RoundtripKind, out var parsedDate)
-            ? parsedDate
-            : DateTime.SpecifyKind(DateTime.Parse(row.RequestDate), DateTimeKind.Utc);
+        if (!DateTime.TryParse(row.RequestDate, null, DateTimeStyles.RoundtripKind, out var parsedDate))
+        {
+            throw new InvalidOperationException($"Invalid request date format: {row.RequestDate}");
+        }
 
         return new Loan
         {
             LoanNumber = row.LoanNumber,
             ClientName = row.ClientName,
             Amount = (decimal)row.Amount,
-            RequestDate = requestDate,
-            Status = status
+            RequestDate = parsedDate,
+            Status = parsedStatus
         };
     }
 
